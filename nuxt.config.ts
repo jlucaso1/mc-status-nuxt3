@@ -3,5 +3,8 @@ import { defineNuxtConfig } from "nuxt3";
 export default defineNuxtConfig({
   nitro: {
     preset: "lambda",
+    output: {
+      dir: "dist",
+    },
   },
 });
