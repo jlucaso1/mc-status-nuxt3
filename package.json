@@ -6,10 +6,16 @@
     "start": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "nuxt3": "latest"
+    "@quasar/vite-plugin": "^1.0.2",
+    "nuxt3": "latest",
+    "sass": "1.32.0"
   },
   "dependencies": {
+    "@quasar/extras": "^1.11.4",
+    "@vueuse/core": "^6.7.5",
+    "@vueuse/integrations": "^6.7.5",
     "axios": "^0.24.0",
-    "mc-server-status": "^2.0.2"
+    "mc-server-status": "git+https://github.com/jlucaso1/mc-server-status.git",
+    "quasar": "^2.2.2"
   }
 }

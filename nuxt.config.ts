@@ -1,3 +1,23 @@
 import { defineNuxtConfig } from "nuxt3";
+import { quasar } from "@quasar/vite-plugin";
 
-export default defineNuxtConfig({});
+export default defineNuxtConfig({
+  ssr: false,
+  buildModules: ["@vueuse/core/nuxt"],
+  css: [
+    "~/styles/quasar.sass",
+    "@quasar/extras/roboto-font/roboto-font.css",
+    "@quasar/extras/material-icons/material-icons.css",
+  ],
+  vite: {
+    // define: {
+    //  __QUASAR_SSR__: true,
+    //  __QUASAR_SSR_SERVER__: true
+    // },
+    plugins: [
+      quasar({
+        sassVariables: "styles/quasar.variables.sass",
+      }),
+    ],
+  },
+});
