@@ -1,11 +1,11 @@
 <template>
-  <div class="h-full flex flex-col items-center justify-center">
+  <div class="h-screen flex flex-col items-center">
     <Toast
       position="bottom-center"
       :breakpoints="{ '640px': { width: '100%' } }"
     />
-    <div class="mx-2 my-5">
-      <Card class="fit-content mb-2">
+    <div class="mx-4 py-4 sm:py-8">
+      <Card class="mb-2" style="width: 100%">
         <template #title> Minecraft Server Status </template>
         <template #content>
           <span class="p-float-label">
@@ -42,7 +42,7 @@
       <transition name="fade">
         <Card v-if="status" class="max-fit-content">
           <template #title>
-            <div>
+            <div class="text-justify">
               {{ status.description }}
             </div>
           </template>
@@ -90,7 +90,7 @@ onFetchError(() => {
 });
 </script>
 
-<style lang="scss">
+<style lang="postcss">
 .fit-content {
   width: fit-content;
 }
@@ -105,5 +105,8 @@ onFetchError(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+.p-scrollpanel-content {
+  @apply flex flex-col items-center justify-center;
 }
 </style>

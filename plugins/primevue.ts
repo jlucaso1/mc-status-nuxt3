@@ -13,5 +13,4 @@ export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.component("Card", Card);
   nuxtApp.vueApp.component("InputText", InputText);
   nuxtApp.vueApp.component("Toast", Toast);
-  //other components that you need
 });
