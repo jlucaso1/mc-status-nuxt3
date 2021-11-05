@@ -1,42 +1,53 @@
 <template>
-  <div
-    class="window-height flex column justify-center items-center q-gutter-y-md"
-  >
-    <div
-      class="flex column justify-center items-center q-gutter-y-md fit-content"
-    >
-      <q-form @submit.prevent="execute" class="flex column q-gutter-y-sm">
-        <q-card class="q-pa-sm">
-          <div class="text-h6">Servers de exemplo</div>
-          <div class="flex items-center q-gutter-x-sm">
-            <div v-for="(server, index) in example_server" :key="index">
-              <q-btn
-                color="secondary"
-                :label="server"
-                @click="input_ip = server"
-              />
-            </div>
+  <div>
+    <Toast />
+    <div class="w-screen h-screen flex flex-col items-center justify-center">
+      <Card class="mb-2">
+        <template #title> Minecraft Server Status </template>
+        <template #content>
+          <span class="p-float-label w-full">
+            <Toast />
+            <InputText
+              id="username"
+              type="text"
+              v-model="input_ip"
+              class="w-full"
+            />
+            <label for="username">Server Ip</label>
+          </span>
+        </template>
+        <template #footer>
+          <div class="flex justify-between">
+            <Button
+              icon="pi pi-check"
+              label="Check"
+              @click="execute"
+              :loading="isFetching"
+            />
+            <Button
+              icon="pi pi-times"
+              label="Clear"
+              class="p-button-secondary"
+              style="margin-left: 0.5em"
+              @click="
+                input_ip = '';
+                status = null;
+              "
+            />
           </div>
-        </q-card>
-        <q-input v-model="input_ip" label="Ip do server" />
-        <q-btn type="submit" label="Consultar" :loading="isFetching" />
-      </q-form>
-
-      <q-card
-        v-if="isFinished && status"
-        bordered
-        class="q-mt-sm flex justify-center items-center column q-pa-sm max-fit-content"
-      >
-        <q-img class="q-mb-md" :src="status.favicon" width="100px" />
-        <div>
-          <div>
-            {{ status.description }}
+        </template>
+      </Card>
+      <Card v-if="status">
+        <template #title> {{ status.description }} </template>
+        <template #content>
+          <div class="flex justify-center">
+            <img :src="status.favicon" width="150" alt="Server Status" />
           </div>
-          <div>
+          <div class="text-emerald-400 text-xl">
             Players: {{ status.players.online }} / {{ status.players.max }}
           </div>
-        </div>
-      </q-card>
+        </template>
+      </Card>
     </div>
   </div>
 </template>
@@ -44,25 +55,27 @@
 <script setup lang="ts">
 import { useFetch } from "@vueuse/core";
 import { Status } from "mc-server-status";
-import { Notify } from "quasar";
+import { useToast } from "primevue/usetoast";
+import { ToastSeverity } from "primevue/api";
 
-const example_server = ["mc.hypixel.net", "mccentral.org", "redesky.com"];
-const input_ip = ref("");
+const toast = useToast();
+
+const input_ip = ref("mc.hypixel.net");
 const ip = computed(() => "/api/status?ip=" + input_ip.value);
 const {
   execute,
-  isFetching,
-  data: status,
-  isFinished,
   onFetchError,
+  data: status,
+  isFetching,
 } = useFetch(ip, {
   immediate: false,
 }).json<Status>();
 onFetchError(() => {
-  Notify.create({
-    message: "Erro ao consultar o servidor",
-    color: "negative",
-    icon: "error_outline",
+  toast.add({
+    severity: ToastSeverity.ERROR,
+    summary: "Error message",
+    detail: `Failed to fetch the server: ${input_ip.value}`,
+    life: 5000,
   });
 });
 </script>
