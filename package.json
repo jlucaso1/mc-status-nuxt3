@@ -7,7 +7,8 @@
   },
   "devDependencies": {
     "nuxt-windicss": "^2.0.11",
-    "nuxt3": "^3.0.0-27267816.6bd7186"
+    "nuxt3": "^3.0.0-27267816.6bd7186",
+    "sass": "^1.43.4"
   },
   "dependencies": {
     "@vueuse/core": "^6.7.6",

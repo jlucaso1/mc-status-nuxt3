@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <Toast />
-    <div class="w-screen h-screen flex flex-col items-center justify-center">
-      <Card class="mb-2">
+  <div class="h-full flex flex-col items-center justify-center">
+    <Toast
+      position="bottom-center"
+      :breakpoints="{ '640px': { width: '100%' } }"
+    />
+    <div class="mx-2 my-5">
+      <Card class="fit-content mb-2">
         <template #title> Minecraft Server Status </template>
         <template #content>
-          <span class="p-float-label w-full">
-            <Toast />
+          <span class="p-float-label">
             <InputText
               id="username"
               type="text"
@@ -37,17 +39,25 @@
           </div>
         </template>
       </Card>
-      <Card v-if="status">
-        <template #title> {{ status.description }} </template>
-        <template #content>
-          <div class="flex justify-center">
-            <img :src="status.favicon" width="150" alt="Server Status" />
-          </div>
-          <div class="text-emerald-400 text-xl">
-            Players: {{ status.players.online }} / {{ status.players.max }}
-          </div>
-        </template>
-      </Card>
+      <transition name="fade">
+        <Card v-if="status" class="max-fit-content">
+          <template #title>
+            <div>
+              {{ status.description }}
+            </div>
+          </template>
+          <template #content>
+            <div class="flex justify-center">
+              <img :src="status.favicon" width="150" alt="Server Status" />
+            </div>
+          </template>
+          <template #footer>
+            <div class="font-mono text-xl text-shadow-sm">
+              Players: {{ status.players.online }} / {{ status.players.max }}
+            </div>
+          </template>
+        </Card>
+      </transition>
     </div>
   </div>
 </template>
@@ -80,11 +90,20 @@ onFetchError(() => {
 });
 </script>
 
-<style>
+<style lang="scss">
 .fit-content {
   width: fit-content;
 }
 .max-fit-content {
   max-width: fit-content;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

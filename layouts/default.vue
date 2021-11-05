@@ -1,14 +1,7 @@
 <template>
-  <div>
+  <div class="h-screen w-screen">
     <slot> </slot>
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  head: {
-    title: "Minecraft Server Status",
-    // link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
-  },
-};
-</script>
+<script setup lang="ts"></script>
